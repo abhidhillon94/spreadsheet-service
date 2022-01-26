@@ -1,1 +1,15 @@
-# spreadsheet-service
+# Spreadsheet Service
+
+It provides APIs for the spreadsheet app to run
+
+## Code Checkout
+
+```
+git clone git@github.com:abhidhillon94/spreadsheet-service.git
+```
+## Set up project for local development
+
+### Prerequisites:
+1. node v14
+2. npm version 7+
+3. docker (to run mongo)
