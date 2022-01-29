@@ -2,10 +2,8 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-import App from '@app/app';
-
-const app = new App();
-app.startHttpServer();
+import DIContainer from '@app/DIContainer';
+DIContainer.app.startHttpServer();
 
 process.on('unhandledRejection', (reason, p) => {
     console.log('high severity error: Unhandled Rejection');

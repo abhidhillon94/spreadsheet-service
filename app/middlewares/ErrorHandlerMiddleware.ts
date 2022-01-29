@@ -1,4 +1,4 @@
-export class ErrorHandlerMiddleware {
+class ErrorHandlerMiddleware {
 
     public handleError = async (err, req, res, next) => {
 
