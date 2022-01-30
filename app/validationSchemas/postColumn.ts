@@ -7,23 +7,31 @@ const postColumn = {
         properties: {
             column: {
                 type: 'object',
-                required: ['value', 'order'],
+                required: ['value'],
                 properties: {
                     value: { type: 'string' },
                     dataType: {
                         type: 'string',
                         enum: Object.values(Object.values(SheetConstants.COLUMN_DATA_TYPES)),
                     },
-                    order: { type: 'number' }
                 },
                 additionalProperties: false,
             },
-            additionalProperties: false,
         },
         additionalProperties: false,
     },
     query: null,
-    params: null,
+    params: {
+        type: 'object',
+        required: ['sheetId'],
+        properties: {
+            sheetId: {
+                type: 'string',
+                format: 'object-id',
+            },
+        },
+        additionalProperties: false,
+    },
 };
 
 export default postColumn;

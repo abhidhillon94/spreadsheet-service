@@ -32,11 +32,13 @@ export class Routes {
 
         router.get(
             '/sheets/:sheetId/columns',
+            this.vm.validate(Schemas.getColumns),
             this.controllers.v1.sheetsController.getAll,
         );
 
         router.delete(
             '/sheets/:sheetId/columns/:columnId',
+            this.vm.validate(Schemas.deleteColumn),
             this.controllers.v1.sheetsController.deleteColumn,
         );
 
@@ -62,6 +64,7 @@ export class Routes {
 
         router.put(
             '/sheets/:sheetId/rows/:rowId/cells',
+            this.vm.validate(Schemas.putRowCells),
             this.controllers.v1.rowsController.setCellValue,
         );
 

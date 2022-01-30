@@ -1,7 +1,5 @@
 import IRow, { INestedCells } from "@app/interfaces/models/IRow";
-import ISheet from "@app/interfaces/models/ISheet";
 import { IRowModel } from "@app/models/Row";
-import { ISheetModel } from "@app/models/Sheet";
 import RowsRepository from "@app/repositories/RowsRepository";
 import { Types } from 'mongoose';
 

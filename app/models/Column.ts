@@ -1,5 +1,5 @@
 import SheetConstants from '@app/constants/SheetConstants';
-import { Schema } from 'mongoose';
+import { Schema, Types } from 'mongoose';
 
 const NestedColumn = new Schema({
     dataType: {
@@ -8,6 +8,10 @@ const NestedColumn = new Schema({
         default: SheetConstants.COLUMN_DATA_TYPES.TEXT,
     },
     value: String,
+    order: {
+        type: Number,
+        required: true,
+    },
 }, {
     _id: true,
 });

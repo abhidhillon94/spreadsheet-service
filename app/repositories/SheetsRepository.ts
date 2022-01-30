@@ -2,11 +2,17 @@ import Logger from "@app/config/Logger";
 import ISheet, { INestedColumn } from "@app/interfaces/models/ISheet";
 import Sheet, { ISheetModel } from "@app/models/Sheet";
 import { Types } from 'mongoose';
+import BaseRepository from "./BaseRepository";
 
-export default class SheetsRepository {
+export default class SheetsRepository extends BaseRepository {
 
     public create = async (attrs: Partial<ISheet>): Promise<ISheetModel> => {
-        return Sheet.create(attrs);
+        try {
+            return await Sheet.create(attrs);
+        } catch (error) {
+            Logger.debug('error occured');
+            this.transformToRepositoryError(error);
+        }
     }
 
     public addColumn = async (findAttrs: Partial<ISheet>, columnAttrs: Partial<INestedColumn>): Promise<ISheetModel> => {
@@ -23,7 +29,7 @@ export default class SheetsRepository {
         findAttrs: Partial<ISheet>,
         columnId: Types.ObjectId,
         columnAttrs: Partial<INestedColumn>,
-    ): Promise<void> => {
+    ): Promise<number> => {
 
         const columnAttrsToUpdate = {};
         Object.keys(columnAttrs).map((columnAttrKey) => {
@@ -37,7 +43,7 @@ export default class SheetsRepository {
             $set: columnAttrsToUpdate,
         }).exec();
 
-        Logger.debug({res});
+        return res.n;
     }
 
     public findColumns = (sheetId: Types.ObjectId): Promise<INestedColumn[]> => {
@@ -49,11 +55,13 @@ export default class SheetsRepository {
         ]).exec();
     }
 
-    public deleteColumn = (sheetId: Types.ObjectId, columnId: Types.ObjectId) => {
-        return Sheet.update(
+    public deleteColumn = async (sheetId: Types.ObjectId, columnId: Types.ObjectId): Promise<number> => {
+        const res = await Sheet.update(
             { _id: sheetId },
             { $pull: { columns: { _id: columnId } } }
         );
+
+        return res.n;
     }
 
 }

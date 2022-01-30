@@ -13,15 +13,19 @@ export default class RowsRepository {
     }
 
     public setCellValue = async (
-        sheetId: Types.ObjectId, rowId: Types.ObjectId, cellValue: INestedCells,
+        sheetId: Types.ObjectId, rowId: Types.ObjectId, cellValues: INestedCells,
     ): Promise<IRowModel> => {
+
+        const columnValueUpdates = {};
+        for (const [key, value] of Object.entries(cellValues)) {
+            columnValueUpdates[`cells.${key}`] = value;
+        }
+
         return Row.findOneAndUpdate({
             _id: rowId,
             sheetId,
         }, {
-            $set: {
-                [`cells.${Object.keys(cellValue)}`]: cellValue[Object.keys(cellValue)[0]],
-            },
+            $set: columnValueUpdates,
         }, {new: true}).exec();
     }
 
