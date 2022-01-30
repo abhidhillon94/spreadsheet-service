@@ -1,11 +1,17 @@
+import Logger from "@app/config/Logger";
 import IRow, { INestedCells } from "@app/interfaces/models/IRow";
 import Row, { IRowModel } from "@app/models/Row";
 import { Types } from 'mongoose';
+import BaseRepository from "./BaseRepository";
 
-export default class RowsRepository {
+export default class RowsRepository extends BaseRepository {
 
     public create = async (attrs: Partial<IRow>): Promise<IRowModel> => {
-        return Row.create(attrs);
+        try {
+            return await Row.create(attrs);
+        } catch (error) {
+            this.transformToRepositoryError(error);
+        }
     }
 
     public findAll = async (attrs: Partial<IRow>): Promise<IRowModel[]> => {
@@ -29,12 +35,18 @@ export default class RowsRepository {
         }, {new: true}).exec();
     }
 
-    public updateAll = async (findAttrs: Partial<IRow>, updateAttrs: Partial<IRow>): Promise<IRowModel> => {
-        return Row.update(findAttrs, updateAttrs);
+    public updateAll = async (findAttrs: Partial<IRow>, updateAttrs: Partial<IRow>): Promise<number> => {
+        try {
+            const res = await Row.updateMany(findAttrs, updateAttrs);
+            return res.n;
+        } catch (error) {
+            this.transformToRepositoryError(error);
+        }
     }
 
-    public deleteAll = async (findAttrs: Partial<IRow>): Promise<IRowModel> => {
-        return Row.deleteMany(findAttrs);
+    public deleteAll = async (findAttrs: Partial<IRow>): Promise<number> => {
+        const res = await Row.deleteMany(findAttrs);
+        return res.n;
     }
 
 }

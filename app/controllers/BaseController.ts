@@ -22,6 +22,10 @@ export default class BaseController {
         res.status(this.NO_CONTENT).send();
     }
 
+    protected notFoundResponse = (res: Response, data) => {
+        res.status(this.NOT_FOUND).send({error: data});
+    }
+
     protected unprocessableEntityResponse = (res: Response, data: any) => {
         res.status(this.UNPROCESSABLE_ENTITY).send({error: data});
     }

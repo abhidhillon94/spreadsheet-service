@@ -10,7 +10,6 @@ export default class SheetsRepository extends BaseRepository {
         try {
             return await Sheet.create(attrs);
         } catch (error) {
-            Logger.debug('error occured');
             this.transformToRepositoryError(error);
         }
     }
@@ -60,8 +59,17 @@ export default class SheetsRepository extends BaseRepository {
             { _id: sheetId },
             { $pull: { columns: { _id: columnId } } }
         );
-
         return res.n;
+    }
+
+    public countByAttrsAndFilters = async (
+        findAttrs: Partial<ISheet>,
+        findFilters: {columnIds: Types.ObjectId[]},
+    ): Promise<number> => {
+        return Sheet.count({
+            ...findAttrs,
+            ...(findFilters.columnIds.length ? {'columns._id': {$all: findFilters.columnIds}} : {}),
+        }).exec();
     }
 
 }

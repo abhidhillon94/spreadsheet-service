@@ -18,5 +18,7 @@ const schema: Schema = new Schema({
     versionKey: false,
 });
 
+schema.index({sheetId: 1, order: 1}, {unique: true});
+
 const Row: Model<IRowModel> = model<IRowModel>('Row', schema, 'rows');
 export default Row;

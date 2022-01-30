@@ -24,7 +24,7 @@ class DiContainer {
     public readonly controllers: IControllers = {
         v1: {
             sheetsController: new SheetsController(this.sheetsService),
-            rowsController: new RowsController(this.rowsService),
+            rowsController: new RowsController(this.rowsService, this.sheetsService),
         }
     };
 

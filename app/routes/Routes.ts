@@ -44,21 +44,25 @@ export class Routes {
 
         router.post(
             '/sheets/:sheetId/rows',
+            this.vm.validate(Schemas.postRow),
             this.controllers.v1.rowsController.create,
         );
 
         router.patch(
             '/sheets/:sheetId/rows/:rowId',
+            this.vm.validate(Schemas.patchRow),
             this.controllers.v1.rowsController.patch,
         );
 
         router.delete(
             '/sheets/:sheetId/rows/:rowId',
+            this.vm.validate(Schemas.deleteRow),
             this.controllers.v1.rowsController.delete,
         );
 
         router.get(
             '/sheets/:sheetId/rows',
+            this.vm.validate(Schemas.getRows),
             this.controllers.v1.rowsController.getAll,
         );
 

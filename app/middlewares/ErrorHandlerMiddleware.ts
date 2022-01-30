@@ -8,7 +8,9 @@ class ErrorHandlerMiddleware extends BaseController {
     public handleError = async (err, req, res, next) => {
 
         if (err.name === 'ServiceError') {
-            return this.unprocessableEntityResponse(res, {code: err.code, message: err.message});
+            if ( [ErrorConstants.SERVICE_ERROR_CODES.NO_MATCH_FOUND_FOR_FILTERS].includes(err.code) ) {
+                return this.notFoundResponse(res, {code: err.code, message: err.message});
+            }
         } else if (err.name === 'RepositoryError') {
             if ( [ErrorConstants.REPOSITORY_ERROR_CODES.UNIQUE_CONSTRAINT_VIOLATION].includes(err.code) ) {
                 return this.conflictResponse(res, {code: err.code, message: err.message});

@@ -52,4 +52,16 @@ export default class SheetsService {
         }
     }
 
+    public validateSheetAndColumnExistence = async (
+        sheetId: Types.ObjectId, columnIds: Types.ObjectId[],
+    ): Promise<void | never> => {
+        const isExists: boolean = await this.sheetsRepository.countByAttrsAndFilters({_id: sheetId}, {columnIds}) > 0;
+        if (!isExists) {
+            throw new ServiceError(
+                ErrorConstants.SERVICE_ERROR_CODES.NO_MATCH_FOUND_FOR_FILTERS,
+                'one of the columnId not found in given sheetId',
+            );
+        }
+    }
+
 }
