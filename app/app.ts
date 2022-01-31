@@ -5,6 +5,7 @@ import express from 'express';
 import mongoSetup from './config/MongoConfig';
 import ErrorHandlerMiddleware from './middlewares/ErrorHandlerMiddleware';
 import Routes from './routes/Routes';
+import cors from 'cors';
 
 export default class App {
 
@@ -18,6 +19,7 @@ export default class App {
         await mongoSetup();
 
         const app = express();
+        app.use(cors());
         app.use(express.json());
         app.use('/api/spreadSheet', this.routes.getRouter());
         app.use(this.errorHandlerMiddleware.handleError);
