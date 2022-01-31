@@ -28,7 +28,7 @@ export default class RowsController extends BaseController {
             Types.ObjectId(req.params.rowId),
             req.body.cell,
         );
-        return res.status(204).send();
+        return this.noContentResponse(res);
     }
 
     public patch = async (req, res, next): Promise<void> => {
